@@ -17,7 +17,7 @@ AAuraEffectActor::AAuraEffectActor()
 
 void AAuraEffectActor::BeginPlay()
 {
-
+	Super::BeginPlay();
 }
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
