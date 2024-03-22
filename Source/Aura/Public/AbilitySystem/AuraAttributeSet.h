@@ -51,6 +51,14 @@ public:
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Stagger, Category = "Vital Attributes")
+	FGameplayAttributeData Stagger;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Stagger);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxStagger, Category = "Vital Attributes")
+	FGameplayAttributeData MaxStagger;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxStagger);
+
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 
@@ -62,4 +70,10 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+	UFUNCTION()
+	void OnRep_Stagger(const FGameplayAttributeData& OldStagger) const;
+
+	UFUNCTION()
+	void OnRep_MaxStagger(const FGameplayAttributeData& OldMaxStagger) const;
 };
