@@ -86,14 +86,23 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 {
 	Super::PostGameplayEffectExecute(Data);
 
-	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Health: %f"), GetHealth());
-		UE_LOG(LogTemp, Warning, TEXT("Magnitude: %f"), Data.EvaluatedData.Magnitude);
-	}
-
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	}
+
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+	}
+
+	if (Data.EvaluatedData.Attribute == GetStaggerAttribute())
+	{
+		SetStagger(FMath::Clamp(GetStagger(), 0.f, GetMaxStagger()));
+	}
 
 	
 }
