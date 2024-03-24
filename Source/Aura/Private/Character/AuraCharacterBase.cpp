@@ -43,5 +43,6 @@ void AAuraCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultRoleAttributes, 1.f);
 	ApplyEffectToSelf(DefaultStatsAttributes, 1.f);
 	ApplyEffectToSelf(DefaultPerksAttributes, 1.f);
+	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
 
