@@ -8,5 +8,5 @@ FAuraGameplayTags FAuraGameplayTags::GameplayTags;
 
 void FAuraGameplayTags::InitializeNativeGameplayTags()
 {
-	UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Role.Tank"), FString("Affinity with the Tank role"));
+	GameplayTags.Attributes_Role_Tank = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Role.Tank"), FString("Affinity with Tank role"));
 }

@@ -18,6 +18,7 @@ public:
 	static const FAuraGameplayTags& Get() { return GameplayTags; }
 	static void InitializeNativeGameplayTags();
 
+	FGameplayTag Attributes_Role_Tank;
 protected:
 
 private:
