@@ -42,4 +42,31 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Perks_ThreatGeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Perks.ThreatGeneration"), FString("Enemy threat generation"));
 	GameplayTags.Attributes_Perks_CooldownReduction = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Perks.CooldownReduction"), FString("Ability cooldowns and mana generation"));
 	GameplayTags.Attributes_Perks_EvasionSpeed = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Perks.EvasionSpeed"), FString("Movement speed, dodge distance, parry window"));
+
+	////////////////
+	// INPUT TAGS //
+	////////////////
+	GameplayTags.InputTag_Movement_MoveUp = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.MoveUp"), FString("Moving character north (up)"));
+	GameplayTags.InputTag_Movement_MoveDown = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.MoveDown"), FString("Moving character south (down)"));
+	GameplayTags.InputTag_Movement_MoveLeft = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.MoveLeft"), FString("Moving character left (west)"));
+	GameplayTags.InputTag_Movement_MoveRight = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.MoveRight"), FString("Moving character right (east)"));
+	GameplayTags.InputTag_Movement_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.Jump"), FString("Jumping off the ground"));
+	GameplayTags.InputTag_Movement_Dash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.Dash"), FString("Increasing movement speed"));
+	GameplayTags.InputTag_Movement_Camera = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Movement.Camera"), FString("Moving character camera"));
+	
+	GameplayTags.InputTag_UI_Menu = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.UI.Menu"), FString("Open settings menu"));
+	GameplayTags.InputTag_UI_Equipment = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.UI.Equipment"), FString("Open character equipment"));
+	GameplayTags.InputTag_UI_SelectP1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.UI.SelectP1"), FString("Select character in Player 1 slot"));
+	GameplayTags.InputTag_UI_SelectP2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.UI.SelectP2"), FString("Select character in Player 2 slot"));
+	GameplayTags.InputTag_UI_SelectP3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.UI.SelectP3"), FString("Select character in Player 3 slot"));
+	GameplayTags.InputTag_UI_SelectP4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.UI.SelectP4"), FString("Select character in Player 4 slot"));
+
+	GameplayTags.InputTag_Abilities_WeaponAttack1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.WeaponAttack1"), FString("Weapon attack (light)"));
+	GameplayTags.InputTag_Abilities_WeaponAttack2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.WeaponAttack2"), FString("Weapon attack (heavy)"));
+	GameplayTags.InputTag_Abilities_WeaponDefend = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.WeaponDefend"), FString("Weapon defensive ability"));
+	GameplayTags.InputTag_Abilities_SpiritAttack1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.SpiritAttack1"), FString("Spirit attack (light)"));
+	GameplayTags.InputTag_Abilities_SpiritAttack2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.SpiritAttack2"), FString("Spirit attack (heavy)"));
+	GameplayTags.InputTag_Abilities_SpiritDefend = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.SpiritDefend"), FString("Spirit defensive ability"));
+	GameplayTags.InputTag_Abilities_SynergyMove = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.SynergyMove"), FString("Weapon and spirit combined move"));
+	GameplayTags.InputTag_Abilities_EnhanceAbility = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.EnhanceAbility"), FString("Enhances weapon and/or spirit abilities"));
 }

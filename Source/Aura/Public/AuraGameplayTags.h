@@ -52,7 +52,33 @@ public:
 	FGameplayTag Attributes_Perks_CooldownReduction;
 	FGameplayTag Attributes_Perks_EvasionSpeed;
 
-protected:
+	////////////////
+	// INPUT TAGS //
+	////////////////
+	FGameplayTag InputTag_Movement_MoveUp;
+	FGameplayTag InputTag_Movement_MoveDown;
+	FGameplayTag InputTag_Movement_MoveLeft;
+	FGameplayTag InputTag_Movement_MoveRight;
+	FGameplayTag InputTag_Movement_Jump;
+	FGameplayTag InputTag_Movement_Dash;
+	FGameplayTag InputTag_Movement_Camera;
+
+	FGameplayTag InputTag_UI_Menu;
+	FGameplayTag InputTag_UI_Equipment;
+	FGameplayTag InputTag_UI_SelectP1;
+	FGameplayTag InputTag_UI_SelectP2;
+	FGameplayTag InputTag_UI_SelectP3;
+	FGameplayTag InputTag_UI_SelectP4;
+
+	FGameplayTag InputTag_Abilities_WeaponAttack1;
+	FGameplayTag InputTag_Abilities_WeaponAttack2;
+	FGameplayTag InputTag_Abilities_WeaponDefend;
+	FGameplayTag InputTag_Abilities_SpiritAttack1;
+	FGameplayTag InputTag_Abilities_SpiritAttack2;
+	FGameplayTag InputTag_Abilities_SpiritDefend;
+	FGameplayTag InputTag_Abilities_SynergyMove;
+	FGameplayTag InputTag_Abilities_EnhanceAbility;
+
 
 private:
 
