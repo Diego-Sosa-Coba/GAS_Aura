@@ -6,10 +6,15 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
+#include "AuraGameplayTags.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
+	TagsToAttributes.Add(GameplayTags.Attributes_Role_Tank, GetTankAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Role_Support, GetSupportAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Role_Burst, GetBurstAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
