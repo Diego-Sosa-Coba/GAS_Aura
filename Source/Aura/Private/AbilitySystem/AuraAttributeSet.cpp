@@ -139,6 +139,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+	
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
@@ -154,6 +155,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		SetStagger(FMath::Clamp(GetStagger(), 0.f, GetMaxStagger()));
 	}
+
+	// TODO: Apply the Perks calculations here because of bug
 
 	
 }
