@@ -12,9 +12,33 @@ UAuraAttributeSet::UAuraAttributeSet()
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
+	/////////////////////
+	// ROLE ATTRIBUTES //
+	/////////////////////
 	TagsToAttributes.Add(GameplayTags.Attributes_Role_Tank, GetTankAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Role_Support, GetSupportAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Role_Burst, GetBurstAttribute);
+
+
+	//////////////////////
+	// STATS ATTRIBUTES //
+	//////////////////////
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_HealthDamage, GetHealthDamageAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_HealthCost, GetHealthCostAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_ManaCrystalCost, GetManaCrystalCostAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_ManaGeneration, GetManaGenerationAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_StaggerDamage, GetStaggerDamageAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_StaggerCost, GetStaggerCostAttribute);
+
+	//////////////////////
+	// PERKS ATTRIBUTES //
+	//////////////////////
+	TagsToAttributes.Add(GameplayTags.Attributes_Perks_MaxHealth, GetMaxHealthAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Perks_MaxMana, GetMaxManaAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Perks_MaxStagger, GetMaxStaggerAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Perks_ThreatGeneration, GetThreatGenerationAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Perks_CooldownReduction, GetCooldownReductionAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Perks_EvasionSpeed, GetEvasionSpeedAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -39,11 +63,11 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	// STATS ATTRIBUTES //
 	//////////////////////
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthDamage, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthDamageReduction, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthCost, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaCrystalCost, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaGeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaggerDamage, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaggerDamageReduction, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaggerCost, COND_None, REPNOTIFY_Always);
 
 	//////////////////////
 	// PERKS ATTRIBUTES //
@@ -51,9 +75,9 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxStagger, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Aggro, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Cooldown, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Speed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ThreatGeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CooldownReduction, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, EvasionSpeed, COND_None, REPNOTIFY_Always);
 }
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -183,9 +207,9 @@ void UAuraAttributeSet::OnRep_HealthDamage(const FGameplayAttributeData& OldHeal
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HealthDamage, OldHealthDamage);
 }
 
-void UAuraAttributeSet::OnRep_HealthDamageReduction(const FGameplayAttributeData& OldHealthDamageReduction) const
+void UAuraAttributeSet::OnRep_HealthCost(const FGameplayAttributeData& OldHealthCost) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HealthDamageReduction, OldHealthDamageReduction);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HealthCost, OldHealthCost);
 }
 
 void UAuraAttributeSet::OnRep_ManaCrystalCost(const FGameplayAttributeData& OldManaCrystalCost) const
@@ -203,9 +227,9 @@ void UAuraAttributeSet::OnRep_StaggerDamage(const FGameplayAttributeData& OldSta
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, StaggerDamage, OldStaggerDamage);
 }
 
-void UAuraAttributeSet::OnRep_StaggerDamageReduction(const FGameplayAttributeData& OldStaggerDamageReduction) const
+void UAuraAttributeSet::OnRep_StaggerCost(const FGameplayAttributeData& OldStaggerCost) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, StaggerDamageReduction, OldStaggerDamageReduction);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, StaggerCost, OldStaggerCost);
 }
 
 //////////////////////
@@ -227,17 +251,17 @@ void UAuraAttributeSet::OnRep_MaxStagger(const FGameplayAttributeData& OldMaxSta
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxStagger, OldMaxStagger);
 }
 
-void UAuraAttributeSet::OnRep_Aggro(const FGameplayAttributeData& OldAggro) const
+void UAuraAttributeSet::OnRep_ThreatGeneration(const FGameplayAttributeData& OldThreatGeneration) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Aggro, OldAggro);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ThreatGeneration, OldThreatGeneration);
 }
 
-void UAuraAttributeSet::OnRep_Cooldown(const FGameplayAttributeData& OldCooldown) const
+void UAuraAttributeSet::OnRep_CooldownReduction(const FGameplayAttributeData& OldCooldownReduction) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Cooldown, OldCooldown);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, CooldownReduction, OldCooldownReduction);
 }
 
-void UAuraAttributeSet::OnRep_Speed(const FGameplayAttributeData& OldSpeed) const
+void UAuraAttributeSet::OnRep_EvasionSpeed(const FGameplayAttributeData& OldEvasionSpeed) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Speed, OldSpeed);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, EvasionSpeed, OldEvasionSpeed);
 }

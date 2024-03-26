@@ -121,9 +121,9 @@ public:
 	FGameplayAttributeData HealthDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthDamage);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthDamageReduction, Category = "Secondary Attributes")
-	FGameplayAttributeData HealthDamageReduction;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthDamageReduction);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthCost, Category = "Secondary Attributes")
+	FGameplayAttributeData HealthCost;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthCost);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaCrystalCost, Category = "Secondary Attributes")
 	FGameplayAttributeData ManaCrystalCost;
@@ -137,9 +137,9 @@ public:
 	FGameplayAttributeData StaggerDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, StaggerDamage);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_StaggerDamageReduction, Category = "Secondary Attributes")
-	FGameplayAttributeData StaggerDamageReduction;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, StaggerDamageReduction);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_StaggerCost, Category = "Secondary Attributes")
+	FGameplayAttributeData StaggerCost;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, StaggerCost);
 
 	//////////////////////
 	// PERKS ATTRIBUTES //
@@ -157,17 +157,17 @@ public:
 	FGameplayAttributeData MaxStagger;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxStagger);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Aggro, Category = "Secondary Attributes")
-	FGameplayAttributeData Aggro;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Aggro);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ThreatGeneration, Category = "Secondary Attributes")
+	FGameplayAttributeData ThreatGeneration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ThreatGeneration);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Cooldown, Category = "Secondary Attributes")
-	FGameplayAttributeData Cooldown;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Cooldown);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CooldownReduction, Category = "Secondary Attributes")
+	FGameplayAttributeData CooldownReduction;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CooldownReduction);
 	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Speed, Category = "Secondary Attributes")
-	FGameplayAttributeData Speed;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Speed);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EvasionSpeed, Category = "Secondary Attributes")
+	FGameplayAttributeData EvasionSpeed;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, EvasionSpeed);
 
 	
 
@@ -206,7 +206,7 @@ public:
 	void OnRep_HealthDamage(const FGameplayAttributeData& OldHealthDamage) const;
 
 	UFUNCTION()
-	void OnRep_HealthDamageReduction(const FGameplayAttributeData& OldHealthDamageReduction) const;
+	void OnRep_HealthCost(const FGameplayAttributeData& OldHealthCost) const;
 
 	UFUNCTION()
 	void OnRep_ManaCrystalCost(const FGameplayAttributeData& OldManaCrystalCost) const;
@@ -218,7 +218,7 @@ public:
 	void OnRep_StaggerDamage(const FGameplayAttributeData& OldStaggerDamage) const;
 
 	UFUNCTION()
-	void OnRep_StaggerDamageReduction(const FGameplayAttributeData& OldStaggerDamageReduction) const;
+	void OnRep_StaggerCost(const FGameplayAttributeData& OldStaggerCost) const;
 
 	//////////////////////
 	// PERKS ATTRIBUTES //
@@ -234,13 +234,13 @@ public:
 	void OnRep_MaxStagger(const FGameplayAttributeData& OldMaxStagger) const;
 
 	UFUNCTION()
-	void OnRep_Aggro(const FGameplayAttributeData& OldAggro) const;
+	void OnRep_ThreatGeneration(const FGameplayAttributeData& OldThreatGeneration) const;
 
 	UFUNCTION()
-	void OnRep_Cooldown(const FGameplayAttributeData& OldCooldown) const;
+	void OnRep_CooldownReduction(const FGameplayAttributeData& OldCooldownReduction) const;
 
 	UFUNCTION()
-	void OnRep_Speed(const FGameplayAttributeData& OldSpeed) const;
+	void OnRep_EvasionSpeed(const FGameplayAttributeData& OldEvasionSpeed) const;
 
 
 
