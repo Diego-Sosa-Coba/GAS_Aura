@@ -15,7 +15,7 @@ void UAuraProjectileAbility::ActivateAbility(const FGameplayAbilitySpecHandle Ha
 
 }
 
-void UAuraProjectileAbility::SpawnProjectile()
+void UAuraProjectileAbility::SpawnProjectile(const FVector& ProjectileTargetLocation, float Pitch)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 
@@ -25,10 +25,12 @@ void UAuraProjectileAbility::SpawnProjectile()
 	if (CombatInterface)
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
+		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
+		Rotation.Pitch = Pitch;  //  0.f ensures Projectiles fly parallel to the ground
 
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
-		//TODO: Set the Projectile Rotation
+		SpawnTransform.SetRotation(Rotation.Quaternion());
 
 		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
 			ProjectileClass,
