@@ -7,6 +7,7 @@
 #include "AuraProjectileAbility.generated.h"
 
 class AAuraProjectile;
+class UGameplayEffect;
 /**
  *
  */
@@ -21,6 +22,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SpawnProjectile(const FVector& ProjectileTargetLocation, float Pitch);
