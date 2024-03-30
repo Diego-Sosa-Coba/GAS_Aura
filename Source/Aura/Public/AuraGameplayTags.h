@@ -41,6 +41,10 @@ public:
 	FGameplayTag Attributes_Stats_ManaGeneration;
 	FGameplayTag Attributes_Stats_StaggerDamage;
 	FGameplayTag Attributes_Stats_StaggerCost;
+	FGameplayTag Attributes_Stats_BarrierHealth;
+	FGameplayTag Attributes_Stats_BarrierStagger;
+	FGameplayTag Attributes_Stats_AbilityCooldown;
+	FGameplayTag Attributes_Stats_AbilityCharges;
 
 	//////////////////////
 	// PERKS ATTRIBUTES //

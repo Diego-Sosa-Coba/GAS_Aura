@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "AbilityLoadoutClassInfo.h"
 #include "WeaponClassInfo.generated.h"
 
 class UGameplayEffect;
@@ -11,9 +12,9 @@ class UGameplayEffect;
 UENUM(BlueprintType)
 enum class EWeaponClass : uint8
 {
-	SwordAndShield,
-	BowAndArrow,
-	CrozierAndBook
+	Sword,
+	Bow,
+	Crozier
 };
 
 
@@ -24,6 +25,9 @@ struct FWeaponClassDefaultInfo
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon Defaults")
 	TSubclassOf<UGameplayEffect> RoleAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon Defaults")
+	UAbilityLoadoutClassInfo *AbilityLoadout;
 };
 /**
  * 

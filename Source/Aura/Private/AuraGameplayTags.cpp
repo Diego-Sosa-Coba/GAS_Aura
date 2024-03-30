@@ -32,6 +32,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Stats_ManaGeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.ManaGeneration"), FString("Mana generated from using ability"));
 	GameplayTags.Attributes_Stats_StaggerDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.StaggerDamage"), FString("Damage done to Stagger"));
 	GameplayTags.Attributes_Stats_StaggerCost = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.StaggerCost"), FString("Stagger cost to evade/defend"));
+	GameplayTags.Attributes_Stats_BarrierHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.BarrierHealth"), FString("Reduces incoming Enemy Health damage by percent"));
+	GameplayTags.Attributes_Stats_BarrierStagger = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.BarrierStagger"), FString("Reduces incoming Enemy Stagger damage by percent"));
+	GameplayTags.Attributes_Stats_AbilityCooldown = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.AbilityCooldown"), FString("Time before next ability can be cast"));
+	GameplayTags.Attributes_Stats_AbilityCharges = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Stats.AbilityCharges"), FString("Number of times ability can be cast (separate cooldowns)"));
+
 
 	//////////////////////
 	// PERKS ATTRIBUTES //

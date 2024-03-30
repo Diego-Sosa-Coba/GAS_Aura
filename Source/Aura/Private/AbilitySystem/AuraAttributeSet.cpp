@@ -29,6 +29,10 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Stats_ManaGeneration, GetManaGenerationAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Stats_StaggerDamage, GetStaggerDamageAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Stats_StaggerCost, GetStaggerCostAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_BarrierHealth, GetBarrierHealthAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_BarrierStagger, GetBarrierStaggerAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_AbilityCooldown, GetAbilityCooldownAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Stats_AbilityCharges, GetAbilityChargesAttribute);
 
 	//////////////////////
 	// PERKS ATTRIBUTES //
@@ -68,6 +72,10 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaGeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaggerDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaggerCost, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, BarrierHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, BarrierStagger, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, AbilityCooldown, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, AbilityCharges, COND_None, REPNOTIFY_Always);
 
 	//////////////////////
 	// PERKS ATTRIBUTES //
@@ -157,6 +165,19 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		SetStagger(FMath::Clamp(GetStagger(), 0.f, GetMaxStagger()));
 	}
 
+	if (Data.EvaluatedData.Attribute == GetIncomingHealthDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingHealthDamage();
+		SetIncomingHealthDamage(0.f);
+		if (LocalIncomingDamage > 0.f)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+
+			const bool bFatal = NewHealth <= 0.f;
+		}
+	}
+
 	// TODO: Apply the Perks calculations here because of bug
 	// that only applies during editing, not in packaged product
 
@@ -235,6 +256,26 @@ void UAuraAttributeSet::OnRep_StaggerDamage(const FGameplayAttributeData& OldSta
 void UAuraAttributeSet::OnRep_StaggerCost(const FGameplayAttributeData& OldStaggerCost) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, StaggerCost, OldStaggerCost);
+}
+
+void UAuraAttributeSet::OnRep_BarrierHealth(const FGameplayAttributeData& OldBarrierHealth) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, BarrierHealth, OldBarrierHealth);
+}
+
+void UAuraAttributeSet::OnRep_BarrierStagger(const FGameplayAttributeData& OldBarrierStagger) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, BarrierStagger, OldBarrierStagger);
+}
+
+void UAuraAttributeSet::OnRep_AbilityCooldown(const FGameplayAttributeData& OldAbilityCooldown) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, AbilityCooldown, OldAbilityCooldown);
+}
+
+void UAuraAttributeSet::OnRep_AbilityCharges(const FGameplayAttributeData& OldAbilityCharges) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, AbilityCharges, OldAbilityCharges);
 }
 
 //////////////////////

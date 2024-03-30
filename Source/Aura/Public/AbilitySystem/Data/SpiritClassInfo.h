@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "AbilityLoadoutClassInfo.h"
 #include "SpiritClassInfo.generated.h"
 
 class UGameplayEffect;
@@ -24,6 +25,9 @@ struct FSpiritClassDefaultInfo
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spirit Defaults")
 	TSubclassOf<UGameplayEffect> RoleAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon Defaults")
+	UAbilityLoadoutClassInfo* AbilityLoadout;
 };
 
 /**
