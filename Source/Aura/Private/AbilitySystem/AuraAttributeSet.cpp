@@ -172,8 +172,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		const float LocalIncomingDamage = GetIncomingHealthDamage();
 		SetIncomingHealthDamage(0.f);
-		if (LocalIncomingDamage > 0.f)
-		{
 			const float NewHealth = GetHealth() - LocalIncomingDamage;
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
@@ -195,7 +193,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			}
 			ShowFloatingText(Props, LocalIncomingDamage);
 		}
-	}
 
 	// TODO: Apply the Perks calculations here because of bug
 	// that only applies during editing, not in packaged product
