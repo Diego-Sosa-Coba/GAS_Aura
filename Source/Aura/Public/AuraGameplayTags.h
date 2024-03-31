@@ -83,6 +83,12 @@ public:
 	FGameplayTag InputTag_Abilities_SynergyMove;
 	FGameplayTag InputTag_Abilities_EnhanceAbility;
 
+	/////////////
+	// EFFECTS //
+	/////////////
+
+	FGameplayTag Effects_HitReact;
+
 
 private:
 

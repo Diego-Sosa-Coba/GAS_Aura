@@ -49,6 +49,4 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stats")
 	float AbilityCharges = 1;
-
-	// TODO: Add the remaining ability stats here?
 };

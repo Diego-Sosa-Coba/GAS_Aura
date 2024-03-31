@@ -74,4 +74,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_Abilities_SpiritDefend = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.SpiritDefend"), FString("Spirit defensive ability"));
 	GameplayTags.InputTag_Abilities_SynergyMove = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.SynergyMove"), FString("Weapon and spirit combined move"));
 	GameplayTags.InputTag_Abilities_EnhanceAbility = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Abilities.EnhanceAbility"), FString("Enhances weapon and/or spirit abilities"));
+
+	/////////////
+	// EFFECTS //
+	/////////////
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Tag granted when reacting to hit"));
+
 }
