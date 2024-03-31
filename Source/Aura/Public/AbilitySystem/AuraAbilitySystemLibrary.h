@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Data/BossClassInfo.h"
+#include "Data/WeaponClassInfo.h"
+#include "Data/SpiritClassInfo.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
 class UAbilitySystemComponent;
@@ -30,4 +32,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
+	static UBossClassInfo* GetBossClassInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
+	static UWeaponClassInfo* GetWeaponClassInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
+	static USpiritClassInfo* GetSpiritClassInfo(const UObject* WorldContextObject);
 };

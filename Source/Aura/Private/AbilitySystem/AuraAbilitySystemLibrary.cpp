@@ -44,12 +44,9 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, EBossClass BossClass, float Level, UAbilitySystemComponent* ASC)
 {
-	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (AuraGameMode == nullptr) return;
-
 	AActor* AvatarActor = ASC->GetAvatarActor();
 
-	UBossClassInfo* BossClassInfo = AuraGameMode->BossClassInfo;
+	UBossClassInfo* BossClassInfo = GetBossClassInfo(WorldContextObject);
 	FBossClassDefaultInfo ClassDefaultInfo = BossClassInfo->GetClassDefaultInfo(BossClass);
 
 	FGameplayEffectContextHandle PerksAttributesContextHandle = ASC->MakeEffectContext();
@@ -66,13 +63,32 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 
 void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (AuraGameMode == nullptr) return;
-
-	UBossClassInfo* BossClassInfo = AuraGameMode->BossClassInfo;
+	UBossClassInfo* BossClassInfo = GetBossClassInfo(WorldContextObject);
 	for (TSubclassOf<UGameplayAbility> AbilityClass : BossClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		ASC->GiveAbility(AbilitySpec);
 	}
+}
+
+
+UBossClassInfo* UAuraAbilitySystemLibrary::GetBossClassInfo(const UObject* WorldContextObject)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode == nullptr) return nullptr;
+	return AuraGameMode->BossClassInfo;
+}
+
+UWeaponClassInfo* UAuraAbilitySystemLibrary::GetWeaponClassInfo(const UObject* WorldContextObject)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode == nullptr) return nullptr;
+	return AuraGameMode->WeaponClassInfo;
+}
+
+USpiritClassInfo* UAuraAbilitySystemLibrary::GetSpiritClassInfo(const UObject* WorldContextObject)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode == nullptr) return nullptr;
+	return AuraGameMode->SpiritClassInfo;
 }

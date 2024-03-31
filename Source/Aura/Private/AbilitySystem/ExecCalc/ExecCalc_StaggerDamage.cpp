@@ -5,7 +5,10 @@
 
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/BossClassInfo.h"
+#include "Interaction/CombatInterface.h"
 
 
 struct AuraStaggerDamageStatics
@@ -36,8 +39,11 @@ void UExecCalc_StaggerDamage::Execute_Implementation(const FGameplayEffectCustom
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
-	const AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
-	const AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
+	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	// Used to get character levels
+	ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
+	ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 
