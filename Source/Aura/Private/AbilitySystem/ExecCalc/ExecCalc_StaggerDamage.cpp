@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_StaggerDamage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
 
@@ -47,11 +48,30 @@ void UExecCalc_StaggerDamage::Execute_Implementation(const FGameplayEffectCustom
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
 
+	// Get Damage Set by Caller Magnitude
+	float StaggerDamage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Attributes_Stats_StaggerDamage);
+
+	// This barrier is the % damage reduction done to Stagger. This value behaves as follows
+	//   - <0: increased damage taken
+	//   - 0: damage is fully taken
+	//   - 100: damage is entirely negated
+	//   - >100: damage is healed by (BarrierStagger - 100)% of the value
+	// NOTE: could go into the negatives to increase damage taken...
+	// 
+	// EXAMPLE:
+	// Stagger = 100
+	// Barrier =
+	// -50 -> 100 * 1.5 = 150 final dmg
+	//   20 -> 100 * .8 = 80 final dmg
+	//   40 -> 100 * .6 = 80 final dmg
+	//   100 -> 100 * .0 = 80 final dmg
+	//   150 -> 100 * -0.5 = -50 final dmg
+
 	float BarrierStagger = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(StaggerDamageStatics().BarrierStaggerDef, EvaluationParameters, BarrierStagger);
-	BarrierStagger = FMath::Max<float>(0.f, BarrierStagger);
-	++BarrierStagger;
+	// Readjust the Stagger damage based off the barrier
+	StaggerDamage = StaggerDamage * (1.f - (BarrierStagger / 100.f));
 
-	const FGameplayModifierEvaluatedData EvaluatedData(StaggerDamageStatics().BarrierStaggerProperty, EGameplayModOp::Additive, BarrierStagger);
+	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingStaggerDamageAttribute(), EGameplayModOp::Additive, StaggerDamage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }

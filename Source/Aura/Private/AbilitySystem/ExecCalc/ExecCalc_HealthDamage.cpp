@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_HealthDamage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
 
@@ -47,11 +48,30 @@ void UExecCalc_HealthDamage::Execute_Implementation(const FGameplayEffectCustomE
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
 
+	// Get Damage Set by Caller Magnitude
+	float HealthDamage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Attributes_Stats_HealthDamage);
+
+	// This barrier is the % damage reduction done to Health. This value behaves as follows
+	//   - <0: increased damage taken
+	//   - 0: damage is fully taken
+	//   - 100: damage is entirely negated
+	//   - >100: damage is healed by (BarrierHealth - 100)% of the value
+	// NOTE: could go into the negatives to increase damage taken...
+	// 
+	// EXAMPLE:
+	// Health = 100
+	// Barrier =
+	// -50 -> 100 * 1.5 = 150 final dmg
+	//   20 -> 100 * .8 = 80 final dmg
+	//   40 -> 100 * .6 = 80 final dmg
+	//   100 -> 100 * .0 = 80 final dmg
+	//   150 -> 100 * -0.5 = -50 final dmg
+
 	float BarrierHealth = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(HealthDamageStatics().BarrierHealthDef, EvaluationParameters, BarrierHealth);
-	BarrierHealth = FMath::Max<float>(0.f, BarrierHealth);
-	++BarrierHealth;
+	// Readjust the Health damage based off the barrier
+	HealthDamage = HealthDamage * (1.f - (BarrierHealth / 100.f));
 
-	const FGameplayModifierEvaluatedData EvaluatedData(HealthDamageStatics().BarrierHealthProperty, EGameplayModOp::Additive, BarrierHealth);
+	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingHealthDamageAttribute(), EGameplayModOp::Additive, HealthDamage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }
