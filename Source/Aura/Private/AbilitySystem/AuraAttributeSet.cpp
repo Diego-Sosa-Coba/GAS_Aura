@@ -234,7 +234,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	}
 
 	// TODO: Text depends on which damage value is higher..might not be possible here since each health/stagger calls is separate?
-	
+	// or just make it depends on which mode the boss is...e.g. Most of the damage Stagger damage is shown, but when Staggered
+	// the Health Damage is shown...yeah lets go with that haha
 
 
 	// TODO: Apply the Perks calculations here because of bug
