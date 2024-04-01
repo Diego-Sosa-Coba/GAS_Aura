@@ -290,5 +290,5 @@ public:
 private:
 
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
-	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bHealthHeal, bool bStaggerHeal, bool bBlockedHit, bool bParriedHit) const;
+	void ShowFloatingText(const FEffectProperties& Props, float HealthDamageVal, float StaggerDamageVal, bool bHealthHeal, bool bStaggerHeal, bool bBlockedHit, bool bParriedHit) const;
 };

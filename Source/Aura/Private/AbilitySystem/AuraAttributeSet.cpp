@@ -169,11 +169,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		SetStagger(FMath::Clamp(GetStagger(), 0.f, GetMaxStagger()));
 	}
 
+
 	if (Data.EvaluatedData.Attribute == GetIncomingHealthDamageAttribute())
 	{
-		const float LocalIncomingDamage = GetIncomingHealthDamage();
+		float LocalIncomingHealthDamage = GetIncomingHealthDamage();
+		float LocalIncomingStaggerDamage = 0.f;
 		SetIncomingHealthDamage(0.f);
-		const float NewHealth = GetHealth() - LocalIncomingDamage;
+		const float NewHealth = GetHealth() - LocalIncomingHealthDamage;
 		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
 		const bool bFatal = NewHealth <= 0.f;
@@ -196,14 +198,15 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		const bool bStaggerHeal = UAuraAbilitySystemLibrary::IsStaggerHeal(Props.EffectContextHandle);
 		const bool bBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 		const bool bParriedHit = UAuraAbilitySystemLibrary::IsParriedHit(Props.EffectContextHandle);
-		ShowFloatingText(Props, LocalIncomingDamage, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
+		ShowFloatingText(Props, LocalIncomingHealthDamage, LocalIncomingStaggerDamage, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
 	}
 	
 	if (Data.EvaluatedData.Attribute == GetIncomingStaggerDamageAttribute())
 	{
-		const float LocalIncomingDamage = GetIncomingStaggerDamage();
+		float LocalIncomingHealthDamage = 0.f;
+		float LocalIncomingStaggerDamage = GetIncomingStaggerDamage();
 		SetIncomingStaggerDamage(0.f);
-		const float NewStagger = GetStagger() - LocalIncomingDamage;
+		const float NewStagger = GetStagger() - LocalIncomingStaggerDamage;
 		SetStagger(FMath::Clamp(NewStagger, 0.f, GetMaxStagger()));
 
 		const bool bFatal = NewStagger <= 0.f;
@@ -227,8 +230,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		const bool bStaggerHeal = UAuraAbilitySystemLibrary::IsStaggerHeal(Props.EffectContextHandle);
 		const bool bBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 		const bool bParriedHit = UAuraAbilitySystemLibrary::IsParriedHit(Props.EffectContextHandle);
-		ShowFloatingText(Props, LocalIncomingDamage, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
+		ShowFloatingText(Props, LocalIncomingHealthDamage, LocalIncomingStaggerDamage, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
 	}
+
+	// TODO: Text depends on which damage value is higher..might not be possible here since each health/stagger calls is separate?
+	
 
 
 	// TODO: Apply the Perks calculations here because of bug
@@ -237,13 +243,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bHealthHeal, bool bStaggerHeal, bool bBlockedHit, bool bParriedHit) const
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float HealthDamageVal, float StaggerDamageVal, bool bHealthHeal, bool bStaggerHeal, bool bBlockedHit, bool bParriedHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			PC->ShowDamageNumber(Props.TargetCharacter, HealthDamageVal, StaggerDamageVal, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
 		}
 	}
 }

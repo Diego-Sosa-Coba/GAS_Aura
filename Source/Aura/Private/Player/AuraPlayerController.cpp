@@ -25,7 +25,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 }
 
-void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+void AAuraPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCharacter, float HealthDamageAmount, float StaggerDamageAmount, bool bHealthHeal, bool bStaggerHeal, bool bBlockedHit, bool bParriedHit)
 {
 	// NOTE: IsValid also checks if the pointer is pending kill, needed for characters
 	// but not for the other
@@ -36,7 +36,7 @@ void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, 
 		// This makes damage text spawn above the target character, but NOT follow it
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DamageText->SetDamageText(DamageAmount);
+		DamageText->SetDamageText(HealthDamageAmount, StaggerDamageAmount, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
 	}
 }
 
