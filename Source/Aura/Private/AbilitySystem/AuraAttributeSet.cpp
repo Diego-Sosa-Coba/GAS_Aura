@@ -7,6 +7,7 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
@@ -172,27 +173,63 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		const float LocalIncomingDamage = GetIncomingHealthDamage();
 		SetIncomingHealthDamage(0.f);
-			const float NewHealth = GetHealth() - LocalIncomingDamage;
-			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+		const float NewHealth = GetHealth() - LocalIncomingDamage;
+		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
-			const bool bFatal = NewHealth <= 0.f;
+		const bool bFatal = NewHealth <= 0.f;
 
-			if (bFatal)
+		if (bFatal)
+		{
+			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
+			if (CombatInterface)
 			{
-				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
-				if (CombatInterface)
-				{
-					CombatInterface->Die();
-				}
+				CombatInterface->Die();
 			}
-			else
-			{
-				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
-				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
-			}
-			ShowFloatingText(Props, LocalIncomingDamage);
 		}
+		else
+		{
+			FGameplayTagContainer TagContainer;
+			TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+		}
+		const bool bHealthHeal = UAuraAbilitySystemLibrary::IsHealthHeal(Props.EffectContextHandle);
+		const bool bStaggerHeal = UAuraAbilitySystemLibrary::IsStaggerHeal(Props.EffectContextHandle);
+		const bool bBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+		const bool bParriedHit = UAuraAbilitySystemLibrary::IsParriedHit(Props.EffectContextHandle);
+		ShowFloatingText(Props, LocalIncomingDamage, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
+	}
+	
+	if (Data.EvaluatedData.Attribute == GetIncomingStaggerDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingStaggerDamage();
+		SetIncomingStaggerDamage(0.f);
+		const float NewStagger = GetStagger() - LocalIncomingDamage;
+		SetStagger(FMath::Clamp(NewStagger, 0.f, GetMaxStagger()));
+
+		const bool bFatal = NewStagger <= 0.f;
+
+		// TODO: instead of Die(), implement and apply Stun()
+		if (bFatal)
+		{
+			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
+			if (CombatInterface)
+			{
+				CombatInterface->Die();
+			}
+		}
+		else
+		{
+			FGameplayTagContainer TagContainer;
+			TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+		}
+		const bool bHealthHeal = UAuraAbilitySystemLibrary::IsHealthHeal(Props.EffectContextHandle);
+		const bool bStaggerHeal = UAuraAbilitySystemLibrary::IsStaggerHeal(Props.EffectContextHandle);
+		const bool bBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+		const bool bParriedHit = UAuraAbilitySystemLibrary::IsParriedHit(Props.EffectContextHandle);
+		ShowFloatingText(Props, LocalIncomingDamage, bHealthHeal, bStaggerHeal, bBlockedHit, bParriedHit);
+	}
+
 
 	// TODO: Apply the Perks calculations here because of bug
 	// that only applies during editing, not in packaged product
@@ -200,7 +237,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bHealthHeal, bool bStaggerHeal, bool bBlockedHit, bool bParriedHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{

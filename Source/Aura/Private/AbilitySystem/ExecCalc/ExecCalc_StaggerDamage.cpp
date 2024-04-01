@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_StaggerDamage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -75,9 +76,24 @@ void UExecCalc_StaggerDamage::Execute_Implementation(const FGameplayEffectCustom
 
 	float BarrierStagger = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(StaggerDamageStatics().BarrierStaggerDef, EvaluationParameters, BarrierStagger);
-	// Readjust the Stagger damage based off the barrier
-	StaggerDamage = StaggerDamage * (1.f - (BarrierStagger / 100.f));
+	// Readjust the Stagger damage based off the barrier, but only when stagger damage is positive
+	if (StaggerDamage > 0.f)
+	{
+		StaggerDamage = StaggerDamage * (1.f - (BarrierStagger / 100.f));
+	}
+	bool bStaggerHeal = StaggerDamage < 0.f;
+	// if very close to 0.f, round to 0.f and consider it a blocked hit
+	bool bBlockedHit = FMath::IsNearlyEqual(StaggerDamage, 0.f, 0.1f);
+	StaggerDamage = bBlockedHit ? 0.f : StaggerDamage;
 
+	// Apply the damage
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingStaggerDamageAttribute(), EGameplayModOp::Additive, StaggerDamage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+
+	// Save out all the text modifiers to the EffectContextHandle
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsHealthHeal(EffectContextHandle, false);
+	UAuraAbilitySystemLibrary::SetIsStaggerHeal(EffectContextHandle, bStaggerHeal);
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlockedHit);
+	UAuraAbilitySystemLibrary::SetIsParriedHit(EffectContextHandle, false);  // TODO: implement
 }
