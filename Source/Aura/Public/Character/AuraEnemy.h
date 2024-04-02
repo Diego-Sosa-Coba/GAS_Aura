@@ -61,7 +61,7 @@ protected:
 	int32 Level = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	EBossClass BossClass = EBossClass::Goblin;
+	EBossClass BossClass = EBossClass::Goblin_Warrior;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;

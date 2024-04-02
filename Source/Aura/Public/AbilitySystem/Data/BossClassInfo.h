@@ -12,8 +12,9 @@ class UGameplayAbility;
 UENUM(BlueprintType)
 enum class EBossClass : uint8
 {
-	Goblin,
-	Dragon
+	Goblin_Warrior,
+	Goblin_Ranger,
+	Goblin_Shaman
 };
 
 USTRUCT(BlueprintType)
