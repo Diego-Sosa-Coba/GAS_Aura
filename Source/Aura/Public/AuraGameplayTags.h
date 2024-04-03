@@ -93,7 +93,7 @@ public:
 	// DAMAGE //
 	////////////
 
-	// TODO: Finish incorporating these
+	// TODO: Finish incorporating these OR delete...probably delete
 	FGameplayTag Damage_Style_Melee;
 	FGameplayTag Damage_Style_Ranged;
 	FGameplayTag Damage_Style_Arcane;
@@ -104,6 +104,14 @@ public:
 	///////////////
 
 	FGameplayTag Abilities_Attack;
+
+
+	//////////////
+	// MONTAGES //
+	//////////////
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
 
 
 private:
