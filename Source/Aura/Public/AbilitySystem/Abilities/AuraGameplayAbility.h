@@ -16,8 +16,18 @@ class AURA_API UAuraGameplayAbility : public UGameplayAbility
 
 public:
 
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
+
+	// TODO: Link to ability map, currently the key used to execute this ability
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	FGameplayTag StartupInputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag DamageTypeTag;
 	
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stats")

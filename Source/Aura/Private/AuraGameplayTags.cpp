@@ -80,6 +80,16 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	/////////////
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Tag granted when reacting to hit"));
 
+	////////////
+	// DAMAGE //
+	////////////
+
+	// TODO: Finish incorporating these
+	GameplayTags.Damage_Style_Melee = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Style.Melee"), FString("Damage Type: Melee"));
+	GameplayTags.Damage_Style_Ranged = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Style.Ranged"), FString("Damage Type: Ranged"));
+	GameplayTags.Damage_Style_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Style.Arcane"), FString("Damage Type: Arcane"));
+	GameplayTags.Damage_Style_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Style.Summon"), FString("Damage Type: Summon"));
+
 	///////////////
 	// ABILITIES //
 	///////////////

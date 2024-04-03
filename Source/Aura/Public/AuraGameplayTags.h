@@ -93,8 +93,11 @@ public:
 	// DAMAGE //
 	////////////
 
-	// TODO: Maybe make a Damage_Health and Damage_Stagger? currently using Attributes_Stats_HealthDamage and Attributes_Stats_StaggerDamage
-	// and that doesn't feel totally correct
+	// TODO: Finish incorporating these
+	FGameplayTag Damage_Style_Melee;
+	FGameplayTag Damage_Style_Ranged;
+	FGameplayTag Damage_Style_Arcane;
+	FGameplayTag Damage_Style_Summon;
 
 	///////////////
 	// ABILITIES //
