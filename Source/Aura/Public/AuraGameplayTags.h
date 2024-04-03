@@ -89,6 +89,19 @@ public:
 
 	FGameplayTag Effects_HitReact;
 
+	////////////
+	// DAMAGE //
+	////////////
+
+	// TODO: Maybe make a Damage_Health and Damage_Stagger? currently using Attributes_Stats_HealthDamage and Attributes_Stats_StaggerDamage
+	// and that doesn't feel totally correct
+
+	///////////////
+	// ABILITIES //
+	///////////////
+
+	FGameplayTag Abilities_Attack;
+
 
 private:
 
