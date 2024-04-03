@@ -56,7 +56,8 @@ void UExecCalc_HealthDamage::Execute_Implementation(const FGameplayEffectCustomE
 	EvaluationParameters.TargetTags = TargetTags;
 
 	// Get Damage Set by Caller Magnitude
-	float HealthDamage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Attributes_Stats_HealthDamage);
+	float OriginalHealthDamage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Attributes_Stats_HealthDamage);
+	float HealthDamage = OriginalHealthDamage;
 
 	// This barrier is the % damage reduction done to Health. This value behaves as follows
 	//   - <0: increased damage taken
@@ -82,8 +83,8 @@ void UExecCalc_HealthDamage::Execute_Implementation(const FGameplayEffectCustomE
 		HealthDamage = HealthDamage * (1.f - (BarrierHealth / 100.f));
 	}
 	bool bHealthHeal = HealthDamage < 0.f;
-	// if very close to 0.f, round to 0.f and consider it a blocked hit
-	bool bBlockedHit = FMath::IsNearlyEqual(HealthDamage, 0.f, 0.1f);
+	// Blocked Hit if new damage is approx 0 AND original damage was NOT 0 or negative 
+	bool bBlockedHit = FMath::IsNearlyEqual(HealthDamage, 0.f, 0.1f) && (OriginalHealthDamage >= 0);
 	HealthDamage = bBlockedHit ? 0.f : HealthDamage;
 
 	// Apply the damage

@@ -56,7 +56,8 @@ void UExecCalc_StaggerDamage::Execute_Implementation(const FGameplayEffectCustom
 	EvaluationParameters.TargetTags = TargetTags;
 
 	// Get Damage Set by Caller Magnitude
-	float StaggerDamage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Attributes_Stats_StaggerDamage);
+	float OriginalStaggerDamage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Attributes_Stats_StaggerDamage);
+	float StaggerDamage = OriginalStaggerDamage;
 
 	// This barrier is the % damage reduction done to Stagger. This value behaves as follows
 	//   - <0: increased damage taken
@@ -82,8 +83,8 @@ void UExecCalc_StaggerDamage::Execute_Implementation(const FGameplayEffectCustom
 		StaggerDamage = StaggerDamage * (1.f - (BarrierStagger / 100.f));
 	}
 	bool bStaggerHeal = StaggerDamage < 0.f;
-	// if very close to 0.f, round to 0.f and consider it a blocked hit
-	bool bBlockedHit = FMath::IsNearlyEqual(StaggerDamage, 0.f, 0.1f);
+	// Blocked Hit if new damage is approx 0 AND original damage was NOT 0 or negative 
+	bool bBlockedHit = FMath::IsNearlyEqual(StaggerDamage, 0.f, 0.1f) && (OriginalStaggerDamage >= 0);
 	StaggerDamage = bBlockedHit ? 0.f : StaggerDamage;
 
 	// Apply the damage
