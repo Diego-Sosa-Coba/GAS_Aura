@@ -98,6 +98,11 @@ TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontages_Implementation()
 	return AttackMontages;
 }
 
+UNiagaraSystem* AAuraCharacterBase::GetHitEffect_Implementation()
+{
+	return HitEffect;
+}
+
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
