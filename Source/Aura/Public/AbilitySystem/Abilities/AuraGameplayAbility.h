@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "Interaction/CombatInterface.h"
 #include "AuraGameplayAbility.generated.h"
 
 /**
@@ -26,8 +27,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FGameplayTag DamageTypeTag;
+	UFUNCTION(BlueprintPure)
+	FTaggedMontage GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages) const;
 	
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stats")
