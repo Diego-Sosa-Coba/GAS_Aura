@@ -53,7 +53,7 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName WeaponTipSocketName = "TipSocket";
+	FName WeaponTipSocketName = "WeaponTipSocket";
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName LeftHandSocketName = "LeftHandSocket";
