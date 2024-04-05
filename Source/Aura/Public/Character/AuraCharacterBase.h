@@ -46,20 +46,29 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	////////////////////
+	// COMBAT SOCKETS //
+	////////////////////
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName WeaponTipSocketName;
+	FName WeaponTipSocketName = "TipSocket";
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName LeftHandSocketName;
+	FName LeftHandSocketName = "LeftHandSocket";
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName RightHandSocketName;
+	FName RightHandSocketName = "RightHandSocket";
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName = "TailSocket";
 
 	bool bDead = false;
 
+	////////////////////////////
+	// ABILITIES & ATTRIBUTES //
+	////////////////////////////
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
