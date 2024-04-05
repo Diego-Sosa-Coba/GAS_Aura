@@ -31,3 +31,9 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 
 	return SpawnLocations;
 }
+
+TSubclassOf<APawn> UAuraSummonAbility::GetRandomSummonClass()
+{
+	const int32 Selection = FMath::RandRange(0, SummonClasses.Num() - 1);
+	return SummonClasses[Selection];
+}

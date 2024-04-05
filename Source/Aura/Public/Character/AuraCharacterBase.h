@@ -26,7 +26,9 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
-	/** Combat Interface */
+	////////////////////////////
+	// START COMBAT INTERFACE //
+	////////////////////////////
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
@@ -35,7 +37,11 @@ public:
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
 	virtual UNiagaraSystem* GetHitEffect_Implementation() override;
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
-	/** end Combat Interface */
+	virtual int32 GetSummonCount_Implementation() override;
+	virtual void IncrementSummonCount_Implementation(int32 Amount) override;
+	//////////////////////////
+	// END COMBAT INTERFACE //
+	//////////////////////////
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
@@ -94,7 +100,9 @@ protected:
 
 	void AddCharacterAbilities();
 
-	/* Dissolve Effects */
+	//////////////////////
+	// DISSOLVE EFFECTS //
+	//////////////////////
 
 	void Dissolve();
 
@@ -115,6 +123,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	USoundBase* DeathSound;
+
+	/////////////
+	// SUMMONS //
+	/////////////
+
+	int32 SummonCount = 0;
 
 private:
 

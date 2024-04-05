@@ -122,6 +122,16 @@ FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FG
 	return FTaggedMontage();
 }
 
+int32 AAuraCharacterBase::GetSummonCount_Implementation()
+{
+	return SummonCount;
+}
+
+void AAuraCharacterBase::IncrementSummonCount_Implementation(int32 Amount)
+{
+	SummonCount += Amount;
+}
+
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }

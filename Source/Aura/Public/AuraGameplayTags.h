@@ -101,6 +101,7 @@ public:
 	// ABILITIES //
 	///////////////
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Summon;
 
 	////////////////////
 	// COMBAT SOCKETS //

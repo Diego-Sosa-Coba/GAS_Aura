@@ -18,6 +18,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<FVector> GetSpawnLocations();
 
+	UFUNCTION(BlueprintPure, Category = "Summoning")
+	TSubclassOf<APawn> GetRandomSummonClass();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Summoning")
 	int32 NumSummons = 5;
 
