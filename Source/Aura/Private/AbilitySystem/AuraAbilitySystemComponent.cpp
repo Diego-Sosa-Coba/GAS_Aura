@@ -4,7 +4,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
-#include "Aura/AuraLogChannels.h"
+#include "AuraLogChannels.h"
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -59,6 +59,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
 
 void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate)
 {
+	// Locks the Activateable Abilities until the for loop finishes
 	FScopedAbilityListLock ActiveScopeLock(*this);
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
@@ -69,20 +70,20 @@ void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate
 	}
 }
 
-FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
-{
-	if (AbilitySpec.Ability)
-	{
-		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
-		{
-			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
-			{
-				return Tag;
-			}
-		}
-	}
-	return FGameplayTag();
-}
+//FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+//{
+//	if (AbilitySpec.Ability)
+//	{
+//		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+//		{
+//			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
+//			{
+//				return Tag;
+//			}
+//		}
+//	}
+//	return FGameplayTag();
+//}
 
 FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
